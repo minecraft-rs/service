@@ -4,7 +4,9 @@ use reqwest::{
 };
 use thiserror::Error;
 
-use crate::{attributes::MinecraftPlayerAttributes, profile::MinecraftProfile};
+use crate::{
+    attributes::MinecraftPlayerAttributes, blocklist::MinecraftBlocklist, profile::MinecraftProfile,
+};
 
 pub struct MinecraftAccount {
     access_token: String,
@@ -60,6 +62,12 @@ impl MinecraftAccount {
         let response = self.api_get("player/attributes")?;
         let attributes: MinecraftPlayerAttributes = serde_json::from_reader(response)?;
         return Ok(attributes);
+    }
+
+    pub fn get_blocklist(&self) -> Result<MinecraftBlocklist, MinecraftServiceError> {
+        let response = self.api_get("privacy/blocklist")?;
+        let blocklist: MinecraftBlocklist = serde_json::from_reader(response)?;
+        return Ok(blocklist);
     }
 
     pub fn get_profile(&self) -> Result<MinecraftProfile, MinecraftServiceError> {
