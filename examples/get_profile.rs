@@ -1,4 +1,4 @@
-use mc_service::MinecraftAccount;
+use mc_service::account::MinecraftAccount;
 
 fn main() {
     let account = MinecraftAccount::new("{your access token}");

@@ -3,7 +3,7 @@ mod tests {
     use std::env;
 
     use dotenv::dotenv;
-    use mc_service::MinecraftAccount;
+    use mc_service::account::MinecraftAccount;
 
     #[test]
     fn get_profile() {
