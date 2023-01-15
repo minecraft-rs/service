@@ -13,7 +13,7 @@ You need to authenticate the user before using this library and get an access_to
 ## Usage
 
 ```rust
-use mc_service::MinecraftAccount;
+use mc_service::account::MinecraftAccount;
 
 fn main() {
     let account = MinecraftAccount::new("{your access token}");
