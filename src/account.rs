@@ -4,7 +4,7 @@ use reqwest::{
 };
 use thiserror::Error;
 
-use crate::profile::MinecraftProfile;
+use crate::{attributes::MinecraftPlayerAttributes, profile::MinecraftProfile};
 
 pub struct MinecraftAccount {
     access_token: String,
@@ -34,22 +34,16 @@ impl MinecraftAccount {
         }
     }
 
-    fn api_get(&self, path: &str) -> Result<Response, reqwest::Error> {
+    fn api_get(&self, path: &str) -> Result<Response, MinecraftServiceError> {
         let response = self
             .client
             .get(format!("https://api.minecraftservices.com/{}", path))
             .header("Authorization", format!("Bearer {}", self.access_token))
-            .send();
-        return response;
-    }
-
-    pub fn get_profile(&self) -> Result<MinecraftProfile, MinecraftServiceError> {
-        let response = self.api_get("minecraft/profile")?;
+            .send()?;
 
         match response.status() {
             StatusCode::OK => {
-                let profile: MinecraftProfile = serde_json::from_reader(response)?;
-                return Ok(profile);
+                return Ok(response);
             }
 
             StatusCode::UNAUTHORIZED => {
@@ -60,5 +54,17 @@ impl MinecraftAccount {
                 return Err(MinecraftServiceError::UnknownError);
             }
         }
+    }
+
+    pub fn get_attributes(&self) -> Result<MinecraftPlayerAttributes, MinecraftServiceError> {
+        let response = self.api_get("player/attributes")?;
+        let attributes: MinecraftPlayerAttributes = serde_json::from_reader(response)?;
+        return Ok(attributes);
+    }
+
+    pub fn get_profile(&self) -> Result<MinecraftProfile, MinecraftServiceError> {
+        let response = self.api_get("minecraft/profile")?;
+        let profile: MinecraftProfile = serde_json::from_reader(response)?;
+        return Ok(profile);
     }
 }
