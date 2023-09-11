@@ -28,6 +28,6 @@ fn main() {
 }
 ```
 
-### Contribution
+## Contribution
 
 Feel free to contribute to the development of the library.

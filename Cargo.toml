@@ -2,6 +2,10 @@
 name = "mc_service"
 version = "0.1.0"
 edition = "2021"
+description = "A Minecraft service that can interact with the Mojang API."
+license = "MIT"
+repository = "https://github.com/minecraft-rs/service"
+include = ["/src", "/examples"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
